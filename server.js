@@ -2,18 +2,20 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
-const userRoutes = require('./routes/UserRoutes')
+const userRoutes = require("./routes/UserRoutes");
+const cookieParser = require("cookie-parser");
 // const users = [];
 
 app.set("view engine", "ejs");
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use(cookieParser());
 
-app.use('/api/v1/', userRoutes)
-
-
+app.use("/api/v1/", userRoutes);
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/userdb", {})
