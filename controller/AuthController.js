@@ -2,7 +2,7 @@ const User = require("../model/User.Model");
 const bcrpyt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 exports.registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, taskList } = req.body;
   console.log(req.body);
   try {
     // To encrypt password
@@ -43,9 +43,13 @@ exports.login = async (req, res) => {
       });
     }
 
-    const accessToken = jwt.sign({ email: checkUser.email }, "My_Secret", {
-      expiresIn: "3600s",
-    });
+    const accessToken = jwt.sign(
+      { _id: checkUser.id, email: checkUser.email },
+      "My_Secret",
+      {
+        expiresIn: "3600s",
+      }
+    );
 
     res.cookie("jwt", accessToken, {
       httpOnly: true,
